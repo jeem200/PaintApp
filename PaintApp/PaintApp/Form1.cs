@@ -52,7 +52,7 @@ namespace PaintApp
 
             } catch (Exception ex)
             {
-                CanPaint = false;
+                CanPaint = false
                 MessageBox.Show(ex.ToString());
             }
             
