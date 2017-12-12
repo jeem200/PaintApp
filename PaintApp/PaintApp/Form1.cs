@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing.Drawing2D;
+using System.IO;
 
 namespace PaintApp
 {
@@ -50,6 +51,7 @@ namespace PaintApp
                 {
                     graphics.DrawEllipse(p, e.X, e.Y, Convert.ToInt32(ShapeSize.Text), Convert.ToInt32(ShapeSize.Text));
                     drawCircle = false;
+                
                 }
             }
             catch (Exception ex)
@@ -115,6 +117,42 @@ namespace PaintApp
         private void ShapeCircle_Click(object sender, EventArgs e)
         {
             drawCircle = true;
+        }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            Bitmap bitmap = new Bitmap(Canvas.Width,Canvas.Height);
+            Graphics g = Graphics.FromImage(bitmap);
+            Rectangle rect = Canvas.RectangleToScreen(Canvas.ClientRectangle);
+            g.CopyFromScreen(rect.Location,Point.Empty,Canvas.Size);
+            //Canvas.DrawToBitmap(bitmap, Canvas.Bounds);
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            
+            saveFileDialog1.Title = "Save Image";
+            saveFileDialog1.Filter = "Bitmap Images (*.bmp)|*.bmp|All Files (*.*)|*.*";
+            //Path.GetDirectoryName(saveFileDialog1.FileName);
+            //Path.GetFileName(saveFileDialog1.FileName);
+            if (saveFileDialog1.ShowDialog(this) == DialogResult.OK)
+            {
+                bitmap.Save(saveFileDialog1.FileName);
+            }
+
+
+            //bitmap.Save();
+        }
+
+        private void Canvas_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.All;
+        }
+
+        private void Canvas_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] path = (string [])e.Data.GetData(DataFormats.FileDrop);
+            foreach (string s in path)
+            {
+                graphics.DrawImage(Image.FromFile(s),new Point(Canvas.Width/2,Canvas.Height/2));
+            }
         }
     }
 }

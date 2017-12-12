@@ -41,12 +41,14 @@
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.ShapeSize = new System.Windows.Forms.ToolStripTextBox();
             this.Canvas = new System.Windows.Forms.Panel();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButton1,
             this.Label1,
             this.BrushSize,
             this.BrushColor,
@@ -147,13 +149,26 @@
             // 
             // Canvas
             // 
+            this.Canvas.AllowDrop = true;
             this.Canvas.Location = new System.Drawing.Point(0, 28);
             this.Canvas.Name = "Canvas";
-            this.Canvas.Size = new System.Drawing.Size(670, 235);
+            this.Canvas.Size = new System.Drawing.Size(670, 231);
             this.Canvas.TabIndex = 1;
+            this.Canvas.DragDrop += new System.Windows.Forms.DragEventHandler(this.Canvas_DragDrop);
+            this.Canvas.DragEnter += new System.Windows.Forms.DragEventHandler(this.Canvas_DragEnter);
             this.Canvas.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Canvas_MouseDown);
             this.Canvas.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Canvas_MouseMove);
             this.Canvas.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Canvas_MouseUp);
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(71, 22);
+            this.toolStripButton1.Text = "Save Image";
+            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
             // Form1
             // 
@@ -185,6 +200,7 @@
         private System.Windows.Forms.ToolStripMenuItem ShapeCircle;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.ToolStripTextBox ShapeSize;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
     }
 }
 
