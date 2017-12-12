@@ -17,6 +17,9 @@ namespace PaintApp
         Graphics graphics;
         int? XCord = null;
         int? YCord = null;
+        bool drawSquare = false;
+        bool drawRect = false;
+        bool drawCircle = false;
         public Form1()
         {
             InitializeComponent();
@@ -26,6 +29,33 @@ namespace PaintApp
         private void Canvas_MouseDown(object sender, MouseEventArgs e)
         {
             CanPaint = true;
+            Pen p = new Pen(BrushColor.ForeColor);
+            try
+            {
+                if (drawSquare)
+                {
+
+
+                    graphics.DrawRectangle(p, e.X, e.Y, Convert.ToInt32(ShapeSize.Text), Convert.ToInt32(ShapeSize.Text));
+                    drawSquare = false;
+
+
+                }
+                else if (drawRect)
+                {
+                    graphics.DrawRectangle(p, e.X, e.Y, 2 * Convert.ToInt32(ShapeSize.Text), Convert.ToInt32(ShapeSize.Text));
+                    drawRect = false;
+                }
+                else if (drawCircle)
+                {
+                    graphics.DrawEllipse(p, e.X, e.Y, Convert.ToInt32(ShapeSize.Text), Convert.ToInt32(ShapeSize.Text));
+                    drawCircle = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
 
         private void Canvas_MouseUp(object sender, MouseEventArgs e)
@@ -42,7 +72,7 @@ namespace PaintApp
                 if (CanPaint)
                 {
 
-                    Pen pen = new Pen(BrushColor.BackColor, float.Parse(BrushSize.Text));
+                    Pen pen = new Pen(BrushColor.ForeColor, float.Parse(BrushSize.Text));
 
                     graphics.DrawLine(pen, new Point(XCord ?? e.X, YCord ?? e.Y), new Point(e.X, e.Y));
                     XCord = e.X;
@@ -52,7 +82,7 @@ namespace PaintApp
 
             } catch (Exception ex)
             {
-                CanPaint = false
+                CanPaint = false;
                 MessageBox.Show(ex.ToString());
             }
             
@@ -63,8 +93,28 @@ namespace PaintApp
             ColorDialog dialog = new ColorDialog();
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                BrushColor.BackColor = dialog.Color;
+                BrushColor.ForeColor = dialog.Color;
             }
+        }
+
+        private void Clear_Click(object sender, EventArgs e)
+        {
+            graphics.Clear(Canvas.BackColor);
+        }
+
+        private void ShapeSquare_Click(object sender, EventArgs e)
+        {
+            drawSquare = true;
+        }
+
+        private void ShapeRect_Click(object sender, EventArgs e)
+        {
+            drawRect = true ;
+        }
+
+        private void ShapeCircle_Click(object sender, EventArgs e)
+        {
+            drawCircle = true;
         }
     }
 }
